@@ -1,0 +1,209 @@
+{
+  "name": "LoopPrompt AI",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are a professional Loop Engineering AI Assistant.\n\nYour goal is to iteratively improve prompts for Large Language Models (LLMs).\n\nFollow this workflow for every user prompt:\n\n1. Understand the user's objective.\n2. Evaluate the prompt.\n3. Score it from 1–10.\n4. Identify:\n   - Missing context\n   - Missing constraints\n   - Missing output format\n   - Missing audience\n5. Rewrite the prompt professionally.\n6. Explain why your version is better.\n7. Ask one follow-up question that would further improve the prompt.\n\nIf the user replies, continue improving the same prompt instead of starting over.\n\nNever answer the original request directly unless explicitly asked.\n\nAlways format your response like this:\n\n# Prompt Evaluation\n\nOverall Score:\n\nStrengths:\n\nWeaknesses:\n\nSuggestions:\n\nOptimized Prompt:\n\nFollow-up Question:\n...\n\nFollow-up Question:\n\nUse Markdown formatting.\n\nUse emojis to make the response easier to read.\n\nAlways structure your answer exactly like this:\n\n# 📋 Prompt Evaluation\n\n## ⭐ Overall Score\n\n## ✅ Strengths\n\n## ❌ Weaknesses\n\n## 💡 Suggestions\n\n## ✨ Optimized Prompt\n\n## ❓ Follow-up Question\n\nNever skip any section.\n\nAt the beginning of every response, display:\n\n🔄 Iteration: 1\n\nIf the user answers the follow-up question, display:\n\n🔄 Iteration: 2\n\nContinue increasing the iteration number for every refinement until the user is satisfied."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        64,
+        -32
+      ],
+      "id": "86e9d69e-0ed4-4d79-ad18-7d2eaa86b30a",
+      "name": "LoopPrompt AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        -144,
+        -32
+      ],
+      "id": "089bea20-6e78-4b14-8f98-d667cbf84a53",
+      "name": "Chat Trigger",
+      "webhookId": "3e9c2393-6411-4429-9644-4e974e4ddf0c"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {
+          "maxTokensToSample": 2048,
+          "temperature": 0.3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        64,
+        192
+      ],
+      "id": "498cb7d2-3b8e-4de3-b644-43b6bcc6bfea",
+      "name": "Groq Llama 3",
+      "credentials": {
+        "groqApi": {
+          "id": "A6d12VZXqvihsmP6",
+          "name": "Groq account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 10
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        160,
+        304
+      ],
+      "id": "d9038c50-ad16-45b3-967b-84d53f5096d6",
+      "name": "Conversation Mmory"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -352,
+        -32
+      ],
+      "id": "9396942e-7d1d-4afa-8104-c8543a57450c",
+      "name": "Start Workflow"
+    },
+    {
+      "parameters": {
+        "content": "1- Receive User Prompt",
+        "height": 80,
+        "width": 208,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -224,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "2dc4cf16-ccc8-4945-94e5-fbd5d7621712",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "2- Analyze & Improve Prompt",
+        "height": 80,
+        "width": 272
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        64,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "d9351a29-4888-4b9d-9ca1-a41cc3caabbf",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "3- Store Conversation Memory",
+        "height": 80,
+        "width": 272,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        48,
+        448
+      ],
+      "typeVersion": 1,
+      "id": "d31ed984-c13e-4ce8-aecd-c44e93dc0061",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "4- Return Optimized Prompt",
+        "height": 80,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -256,
+        256
+      ],
+      "typeVersion": 1,
+      "id": "4f5c33ee-0e89-4fde-93af-59bfaebd3497",
+      "name": "Sticky Note3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "LoopPrompt AI Agent": {
+      "main": [
+        []
+      ]
+    },
+    "Chat Trigger": {
+      "main": [
+        [
+          {
+            "node": "LoopPrompt AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Llama 3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "LoopPrompt AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Mmory": {
+      "ai_memory": [
+        [
+          {
+            "node": "LoopPrompt AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start Workflow": {
+      "main": [
+        [
+          {
+            "node": "LoopPrompt AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "8f696356-12ec-4c7f-b021-90f9af4e6a11",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c7a9b2da256cab2dcfe187263b95a15887424c792ca2e6b7705896b41813aa49"
+  },
+  "nodeGroups": [],
+  "id": "QnplxXp2FfXJGGo7",
+  "tags": []
+}
