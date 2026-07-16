@@ -39,7 +39,7 @@ The agent:
 ---
 
 ## 📷 Workflow
-
+![LoopPrompt AI Workflow](workflow.png)
 Add a screenshot of your n8n workflow here.
 
 ---
