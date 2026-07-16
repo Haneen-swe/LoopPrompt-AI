@@ -36,6 +36,21 @@ The agent:
 - AI Agent
 - Simple Memory
 
+## 🏗️ Architecture
+                User
+                  │
+                  ▼
+          Chat Trigger
+                  │
+                  ▼
+      LoopPrompt AI Agent
+         ├──────────────┐
+         ▼              ▼
+   Groq LLM      Conversation Memory
+         │              │
+         └──────┬───────┘
+                ▼
+      Optimized Prompt
 ---
 
 ## 📷 Workflow
@@ -65,3 +80,12 @@ Create a portfolio website.
 ## 👩‍💻 Author
 
 Haneen Nasser
+
+## 🚀 Future Improvements
+
+- Support multiple AI models
+- Export optimized prompts
+- Prompt history
+- User authentication
+- Web search integration
+- Prompt templates
